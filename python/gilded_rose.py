@@ -70,7 +70,7 @@ class ConjuredItemUpdater(ItemUpdater):
 class ItemUpdaterFactory:
     def get_updater(self, item):
         name = item.name.lower()
-        if name == "Aged Brie":
+        if name == "aged brie":
             return AgedBrieUpdater()
         elif name.startswith("backstage passes"):
             return BackstagePassUpdater()
