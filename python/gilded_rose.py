@@ -1,4 +1,15 @@
+
+class Item:
+    def __init__(self, name, sell_in, quality):
+        self.name = name
+        self.sell_in = sell_in
+        self.quality = quality
+
+    def __repr__(self):
+        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
 # -*- coding: utf-8 -*-
+
 
 class GildedRose(object):
 
@@ -36,11 +47,21 @@ class GildedRose(object):
                         item.quality = item.quality + 1
 
 
-class Item:
-    def __init__(self, name, sell_in, quality):
-        self.name = name
-        self.sell_in = sell_in
-        self.quality = quality
+def is_aged_brie(self, item):
+    return item.name == "Aged Brie"
 
-    def __repr__(self):
-        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+
+def is_backstage_pass(self, item):
+    return item.name == "Backstage passes to a TAFKAL80ETC concert"
+
+
+def is_sulfuras(self, item):
+    return item.name == "Sulfuras, Hand of Ragnaros"
+
+
+def decrease_quality(self, item, amount=1):
+    item.quality = max(0, item.quality - amount)
+
+
+def increase_quality(self, item, amount=1):
+    item.quality = min(50, item.quality + amount)
