@@ -1,19 +1,25 @@
+from typing import List
+
 
 class Item:
-    def __init__(self, name, sell_in, quality):
+    """Represents a single inventory item."""
+
+    def __init__(self, name: str, sell_in: int, quality: int):
         self.name = name
         self.sell_in = sell_in
         self.quality = quality
 
     def __repr__(self):
-        return "%s, %s, %s" % (self.name, self.sell_in, self.quality)
+        return f"{self.name}, {self.sell_in}, {self.quality}"
 
 
 # Base Updater and Utilities functionality
 class ItemUpdater:
+    """Base class for item update strategies."""
 
     def update(self, item):
-        raise NotImplementedError
+        raise NotImplementedError(
+            "Subclasses must implement the update method.")
 
     def decrease_quality(self, item, amount=1):
         item.quality = max(0, item.quality - amount)
@@ -23,6 +29,8 @@ class ItemUpdater:
 
 
 class AgedBrieUpdater(ItemUpdater):
+    """Aged Brie increases in quality as it ages."""
+
     def update(self, item):
         self.increase_quality(item)
         item.sell_in -= 1
@@ -31,6 +39,8 @@ class AgedBrieUpdater(ItemUpdater):
 
 
 class BackstagePassUpdater(ItemUpdater):
+    """Backstage passes increase in quality as concert approaches, then drop to 0."""
+
     def update(self, item):
         self.increase_quality(item)
         if item.sell_in < 11:
@@ -43,11 +53,15 @@ class BackstagePassUpdater(ItemUpdater):
 
 
 class SulfurasUpdater(ItemUpdater):
+    """Sulfuras never changes in quality or sell_in."""
+
     def update(self, item):
         pass
 
 
 class NormalItemUpdater(ItemUpdater):
+    """Normal items degrade in quality over time."""
+
     def update(self, item):
         self.decrease_quality(item)
         item.sell_in -= 1
@@ -56,6 +70,8 @@ class NormalItemUpdater(ItemUpdater):
 
 
 class ConjuredItemUpdater(ItemUpdater):
+    """Conjured items degrade in quality twice as fast."""
+
     def update(self, item):
         self.decrease_quality(item, 2)
         item.sell_in -= 1
@@ -63,11 +79,12 @@ class ConjuredItemUpdater(ItemUpdater):
             self.decrease_quality(item, 2)
 
 
-# Helper Methods
-
 # Factory class
 
 class ItemUpdaterFactory:
+
+    """Factory to get appropriate updater for each item."""
+
     def get_updater(self, item):
         name = item.name.lower()
         if name == "aged brie":
@@ -83,9 +100,9 @@ class ItemUpdaterFactory:
 
 
 # -*- coding: utf-8 -*-
-
 # Main GildeRose Class
 class GildedRose(object):
+    """Main class that updates all items in the store."""
 
     def __init__(self, items):
         self.items = items
