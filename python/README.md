@@ -1,29 +1,92 @@
-# Gilded Rose starting position in Python
+# Gilded Rose Kata – Python (Refactored)
 
-For exercise instructions see [top level README](../README.md)
+This is a clean implementation of the Gilded Rose Kata in Python using the **Factory Design Pattern**.  
+It includes complete support for **Conjured items** and full unit test coverage.
 
-Suggestion: create a python virtual environment for this project. See the [documentation](https://docs.python.org/3/library/venv.html)
+##  Directory
 
-## Run the unit tests from the Command-Line
+All changes are in the `python/` directory.
 
+
+##  Setup Instructions
+
+# 1. Create Virtual Environment
+
+```bash
+python -m venv venv
 ```
-python test_gilded_rose.py
+
+# 2. Activate the Virtual Environment
+
+  ```bash
+  source venv/bin/activate
+  ```
+
+---
+
+### 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
 ```
 
-## Run the TextTest fixture from the Command-Line
 
-For e.g. 10 days:
-
+```bash
+pip install coverage
 ```
+
+---
+
+# Run Unit Tests
+
+```bash
+python -m unittest test_gilded_rose.py
+```
+
+Test cases cover:
+- Normal Items
+- Aged Brie
+- Backstage Passes
+- Sulfuras
+- Conjured Items
+
+---
+
+# Test Coverage
+
+```bash
+coverage run test_gilded_rose.py
+coverage report -m
+```
+
+
+# Code Structure Highlights
+
+- Factory Pattern for item type logic
+- Separate updater classes per item
+- Easy to extend and test
+- Clean, Pythonic code
+
+
+
+# Conjured Item Support
+
+- Items starting with `"Conjured"` degrade in quality twice as fast
+- After expiration, degrade 4x as fast
+- Fully tested with edge cases
+
+
+
+# Example Commands Summary
+
+# bash
+
+python -m venv venv
+source venv/bin/activate        # or venv\Scripts\activate
+pip install -r requirements.txt
+python -m unittest test_gilded_rose.py
+coverage run test_gilded_rose.py
+coverage report -m
 python texttest_fixture.py 10
-```
-
-You should make sure the command shown above works when you execute it in a terminal before trying to use TextTest (see below).
 
 
-## Run the TextTest approval test that comes with this project
-
-There are instructions in the [TextTest Readme](../texttests/README.md) for setting up TextTest. You will need to specify the Python executable and interpreter in [config.gr](../texttests/config.gr). Uncomment these lines:
-
-    executable:${TEXTTEST_HOME}/python/texttest_fixture.py
-    interpreter:python
