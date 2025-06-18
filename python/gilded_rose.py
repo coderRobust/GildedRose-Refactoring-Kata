@@ -18,35 +18,48 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if not self.is_aged_brie(item) and not self.is_backstage_pass(item):
-                if item.quality > 0:
-                    if not self.is_sulfuras(item):
-                        self.decrease_quality(item)
+            if self.is_aged_brie(item):
+                self._update_aged_brie(item)
+            elif self.is_backstage_pass(item):
+                self._update_backstage_pass(item)
+            elif self.is_sulfuras(item):
+                self._update_sulfuras(item)
             else:
-                if item.quality < 50:
-                    self.increase_quality(item)
-                    if self.is_backstage_pass(item):
-                        if item.sell_in < 11:
-                            self.increase_quality(item)
-                        if item.sell_in < 6:
-                            self.increase_quality(item)
-
-            if not self.is_sulfuras(item):
-                item.sell_in -= 1
-
-            if item.sell_in < 0:
-                if not self.is_aged_brie(item):
-                    if not self.is_backstage_pass(item):
-                        if item.quality > 0:
-                            if not self.is_sulfuras(item):
-                                self.decrease_quality(item)
-                    else:
-                        item.quality = 0
-                else:
-                    if item.quality < 50:
-                        self.increase_quality(item)
+                self._update_normal_item(item)
 
 
+# Item-Type Update Methods
+
+def _update_aged_brie(self, item):
+    self.increase_quality(item)
+    item.sell_in -= 1
+    if item.sell_in < 0:
+        self.increase_quality(item)
+
+
+def _update_backstage_pass(self, item):
+    self.increase_quality(item)
+    if item.sell_in < 11:
+        self.increase_quality(item)
+    if item.sell_in < 6:
+        self.increase_quality(item)
+    item.sell_in -= 1
+    if item.sell_in < 0:
+        item.quality = 0
+
+
+def _update_sulfuras(self, item):
+    pass  # Legendary item, do nothing
+
+
+def _update_normal_item(self, item):
+    self.decrease_quality(item)
+    item.sell_in -= 1
+    if item.sell_in < 0:
+        self.decrease_quality(item)
+
+
+# Helper Methods
 def is_aged_brie(self, item):
     return item.name == "Aged Brie"
 
